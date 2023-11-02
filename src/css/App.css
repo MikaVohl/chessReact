@@ -1,0 +1,81 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+#game {
+  width: 100vw;
+  height: 80vh;
+  background-color: antiquewhite;
+}
+
+#chessboard {
+  text-align: center;
+  margin: auto;
+  width: 80vh;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  /* display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr; */
+}
+
+#chessboard .tileRow {
+  display: flex;
+}
+
+#chessboard .square{
+  height: 10vh;
+  width: 10vh;
+  font-size: 90px;
+  margin: auto;
+  text-align: center;
+}
+
+#chessboard .square img{
+  height: 75%;
+  padding-bottom: 4%;
+}
+
+.white {
+  background-color: rgb(255, 255, 230);
+  /* color: rgb(0, 0, 0); */
+}
+
+.black {
+  background-color: rgb(100, 60, 23);
+  /* color: rgb(255, 255, 255); */
+}
+
+#chessboard .selected .white{
+  background-color: rgb(255, 159, 121);
+}
+
+#chessboard .selected .black{
+  background-color: rgb(156, 44, 0);
+}
