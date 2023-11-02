@@ -8,9 +8,19 @@ function LocalMultiplayer(){
     client.onWebSocketError = () => {
         console.log("Failed to connect");
     };
+    
     client.onConnect = () => {
         console.log("Connected");
+
+        function callback(message: { body: string; }) {
+            console.log("From Server: "+message.body);
+        };
+
+        console.log(client.brokerURL);
+        var subscription = client.subscribe("/topic/receivedInstruction", callback);
+
     }
+
 
     return(
         <Board onTileClick={onTileClick}/> 
@@ -18,7 +28,12 @@ function LocalMultiplayer(){
 }
 
 function onTileClick(tileKey: string){
-    console.log(tileKey);
+    // console.log(tileKey);
+    client.publish({
+        destination: '/app/incomingInfo',
+        body: tileKey
+    });
+    // console.log("Sent")
 }
 
 export {LocalMultiplayer, onTileClick};

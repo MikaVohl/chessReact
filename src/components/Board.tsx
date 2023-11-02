@@ -11,20 +11,29 @@ const chessboardSetup = generateBoard();
 
 function Board({onTileClick}: BoardProps){
 
+    const columnLabels = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+
     return(
         <div id="game">
             <div id="chessboard">
                 {chessboardSetup.map((row, rowIndex) => (
                     <div className="tileRow" key={rowIndex}>
+                        <h2 className="sideLabel" id="rowLabel">{8-rowIndex}</h2>
                         {row.map((cell, cellIndex) => (
                             <div onClick={() => onTileClick(rowIndex+""+cellIndex)} className={"square "+( (rowIndex+cellIndex)%2 == 0 ? "white" : "black" )} key={cellIndex}>{cell}</div>
                         ))}
                     </div>
                 ))}
+                <div className="tileRow">
+                    {columnLabels.map((label) => (
+                        <h2 key={label} className="sideLabel" id="colLabel">{label}</h2>
+                    ))}
+                </div>
             </div>
         </div>
     )
 }
+
 
 // function Board(){
 //     return(

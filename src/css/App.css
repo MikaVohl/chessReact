@@ -79,3 +79,19 @@
 #chessboard .selected .black{
   background-color: rgb(156, 44, 0);
 }
+
+.sideLabel{
+  
+}
+
+#colLabel{
+  width: 3.6%;
+  margin-top: auto;
+  margin-bottom: auto;
+  text-align: center;
+  margin-left: 8.4%;
+}
+
+#rowLabel{
+  width: 5%;
+}
