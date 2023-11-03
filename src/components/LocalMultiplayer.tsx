@@ -1,39 +1,57 @@
 import Board from './Board';
 import { client } from '../App';
+import { useState } from 'react';
+
+var isStarted = false;
 
 function LocalMultiplayer(){
-
-    client.activate();
-
-    client.onWebSocketError = () => {
-        console.log("Failed to connect");
-    };
+    const [gameStarted, setGameStarted] = useState(false);
     
-    client.onConnect = () => {
-        console.log("Connected");
 
-        function callback(message: { body: string; }) {
-            console.log("From Server: "+message.body);
+    function startGame(){
+        setGameStarted(true);
+        isStarted = true;
+
+        client.activate();
+
+        client.onWebSocketError = () => {
+            console.log("Failed to connect");
         };
+        
+        client.onConnect = () => {
+            console.log("Connected");
 
-        console.log(client.brokerURL);
-        var subscription = client.subscribe("/topic/receivedInstruction", callback);
+            client.publish({
+                destination: '/app/connect'
+            });
 
+            function callback(message: { body: string; }) {
+                console.log("From Server: "+message.body);
+            };
+
+            var subscription = client.subscribe("/topic/receivedInstruction", callback);
+
+        }
     }
 
-
+    
     return(
-        <Board onTileClick={onTileClick}/> 
+        <div id="game">
+            {!gameStarted && <button className="startButton" onClick={startGame} key="startButton">Start Game</button>}
+            <Board onTileClick={onTileClick}/> 
+        </div>
     );
 }
 
 function onTileClick(tileKey: string){
-    // console.log(tileKey);
-    client.publish({
-        destination: '/app/incomingInfo',
-        body: tileKey
-    });
-    // console.log("Sent")
+    if(isStarted){
+        client.publish({
+            destination: '/app/incomingInfo',
+            body: tileKey
+        });
+    }
 }
+
+
 
 export {LocalMultiplayer, onTileClick};
