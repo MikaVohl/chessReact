@@ -5,7 +5,9 @@ import { GamePage } from "./pages/GamePage";
 import { HomePage } from "./pages/HomePage";
 
 // const client = new Client({ brokerURL: `ws://${process.env.REACT_APP_SERVER_ADDRESS}/ws` }); // Creates new STOMP client
-const client = new Client({ brokerURL: `ws://localhost:8080/ws` }); // Creates new STOMP client
+// const client = new Client({ brokerURL: `ws://localhost:8080/ws` }); // Creates new STOMP client
+const client = new Client({ brokerURL: `ws://129.153.57.236:8080/ws` }); // Creates new STOMP client
+
 function App() {
   return (
     <Routes>

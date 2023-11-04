@@ -4,9 +4,9 @@ import { useState } from 'react';
 
 var isStarted = false;
 
+
 function LocalMultiplayer(){
-    const [gameStarted, setGameStarted] = useState(false);
-    
+    const [gameStarted, setGameStarted] = useState(false);    
 
     function startGame(){
         setGameStarted(true);
@@ -51,6 +51,7 @@ function onTileClick(tileKey: string){
         });
     }
 }
+
 
 
 

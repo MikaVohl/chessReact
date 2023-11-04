@@ -55,19 +55,17 @@
 
 .white {
   background-color: rgb(255, 255, 230);
-  /* color: rgb(0, 0, 0); */
 }
 
 .black {
   background-color: rgb(100, 60, 23);
-  /* color: rgb(255, 255, 255); */
 }
 
-#chessboard .selected .white{
+#chessboard .selected.white{
   background-color: rgb(255, 159, 121);
 }
 
-#chessboard .selected .black{
+#chessboard .selected.black{
   background-color: rgb(156, 44, 0);
 }
 
@@ -95,3 +93,4 @@
   width: 30%;
   height: 17%;
 }
+
