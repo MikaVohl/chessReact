@@ -4,16 +4,16 @@ import { useState, useEffect } from 'react';
 
 interface BoardProps {
     onTileClick: (key: string) => void;
+    selectedTiles: string[];
 }
 
 const BOARD_DIMENSION = 8;
 const chessboardSetup = generateBoard();
 
 
-function Board({onTileClick}: BoardProps){
-    const [selectedTiles, setSelectedTiles] = useState<string[]>(["00", "12", "54"]);
+function Board({onTileClick, selectedTiles}: BoardProps){
+    // const [selectedTiles, setSelectedTiles] = useState<string[]>(["00", "12", "54"]);
     const columnLabels = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-
 
     return(
         <div id="chessboard">

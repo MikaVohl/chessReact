@@ -4,9 +4,10 @@ import { useState } from 'react';
 
 var isStarted = false;
 
-
 function LocalMultiplayer(){
     const [gameStarted, setGameStarted] = useState(false);    
+    const [tileSelectedList, setSelections] = useState(["11", "12"]);
+
 
     function startGame(){
         setGameStarted(true);
@@ -25,11 +26,14 @@ function LocalMultiplayer(){
                 destination: '/app/connect'
             });
 
-            function callback(message: { body: string; }) {
-                console.log("From Server: "+message.body);
-            };
 
-            var subscription = client.subscribe("/topic/receivedInstruction", callback);
+            var subscription = client.subscribe("/topic/possibleMoves", receiveSelections);
+
+            
+                function receiveSelections(message: { body: string; }) {
+                console.log("From Server: "+message.body);
+                setSelections(decodeString(message.body));
+            };
 
         }
     }
@@ -38,7 +42,7 @@ function LocalMultiplayer(){
     return(
         <div id="game">
             {!gameStarted && <button className="startButton" onClick={startGame} key="startButton">Start Game</button>}
-            <Board onTileClick={onTileClick}/> 
+            <Board onTileClick={onTileClick} selectedTiles={tileSelectedList}/> 
         </div>
     );
 }
@@ -52,7 +56,13 @@ function onTileClick(tileKey: string){
     }
 }
 
-
+function decodeString(encoded: string){
+    let output = [];
+    for(let i=0; i<=encoded.length+1/2; i+=2){
+        output.push(encoded.charAt(i)+""+encoded.charAt(i+1));
+    }
+    return output;
+}
 
 
 export {LocalMultiplayer, onTileClick};
