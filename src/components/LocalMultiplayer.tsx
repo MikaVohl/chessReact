@@ -6,7 +6,7 @@ var isStarted = false;
 
 function LocalMultiplayer(){
     const [gameStarted, setGameStarted] = useState(false);    
-    const [tileSelectedList, setSelections] = useState(["11", "12"]);
+    const [tileSelectedList, setSelections] = useState([""]);
 
 
     function startGame(){

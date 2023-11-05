@@ -61,17 +61,34 @@
   background-color: rgb(100, 60, 23);
 }
 
-#chessboard .selected.white{
-  background-color: rgb(255, 159, 121);
+/* #chessboard .selected.white{ */
+  /* background-color: rgb(255, 87, 75); */
+  /* background-color: rgb(255, 132, 104); */
+/* } */
+#chessboard .selected {
+  position: relative;
 }
 
-#chessboard .selected.black{
-  background-color: rgb(156, 44, 0);
+#chessboard .selected:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top:1%;
+  left:0;
+  bottom: 0;
+  right: 0;
+  margin: 30%;
+  height: 40%;
+  width: 40%;
+  background: rgba(43, 43, 43, 0.695);
+  border-radius: 40%;
 }
 
-.sideLabel{
-  
-}
+/* #chessboard .selected.black{ */
+  /* background-color: rgb(189, 35, 0); */
+  /* background-color: rgb(169, 48, 0); */
+/* } */
+
 
 #colLabel{
   width: 3.6%;
