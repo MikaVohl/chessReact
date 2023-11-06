@@ -8,6 +8,16 @@ var sessionId: string = "";
 function LocalMultiplayer(){
     const [gameStarted, setGameStarted] = useState(false);    
     const [tileSelectedList, setSelections] = useState([""]);
+    const [board, updateBoard] = useState([
+        "br","bn","bb","bq","bk","bb","bn","br"
+        ,"bp","bp","bp","bp","bp","bp","bp","bp"
+        ,"  ","  ","  ","  ","  ","  ","  ","  "
+        ,"  ","  ","  ","  ","  ","  ","  ","  "
+        ,"  ","  ","  ","  ","  ","  ","  ","  "
+        ,"  ","  ","  ","  ","  ","  ","  ","  "
+        ,"wp","wp","wp","wp","wp","wp","wp","wp"
+        ,"wr","wn","wb","wq","wk","wb","wn","wr"
+    ]);
 
     function startGame(){
         setGameStarted(true);
@@ -29,17 +39,29 @@ function LocalMultiplayer(){
             var connectionFeedback = client.subscribe("/app/serverCommands", connectionMsg);
             
 
-            var subscription = client.subscribe("/topic/serverCommands", receiveSelections);
+            var subscription = client.subscribe("/user/topic/serverCommands", receiveSelections);
 
 
                 function connectionMsg(message: { body: string }) {
-                    console.log(message.body);
-                    sessionId = message.body;
+                    sessionId = message.body.substring(0, 36);
+                    let currentBoard = message.body.substring(36);
+                    updateBoard(decodeString(currentBoard));
+                    setSelections([""]);
+
+                    console.log(sessionId);
+                    console.log(currentBoard);
                 }
             
                 function receiveSelections(message: { body: string }) {
-                console.log("From Server: "+message.body);
-                setSelections(decodeString(message.body));
+                    console.log("From Server: "+message.body);
+                    if(message.body.charAt(0) == "1"){
+                        setSelections(decodeString(message.body.substring(1)));
+                    }
+                    else if(message.body.charAt(0) == "2"){
+                        updateBoard(decodeString(message.body.substring(1)));
+                        setSelections([""]);
+                    }
+                    
             };
 
         }
@@ -49,7 +71,7 @@ function LocalMultiplayer(){
     return(
         <div id="game">
             {!gameStarted && <button className="startButton" onClick={startGame} key="startButton">Start Game</button>}
-            <Board onTileClick={onTileClick} selectedTiles={tileSelectedList}/> 
+            <Board onTileClick={onTileClick} selectedTiles={tileSelectedList} board={board}/> 
         </div>
     );
 }

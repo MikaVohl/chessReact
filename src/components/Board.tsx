@@ -5,15 +5,17 @@ import { useState, useEffect } from 'react';
 interface BoardProps {
     onTileClick: (key: string) => void;
     selectedTiles: string[];
+    board: string[];
 }
 
 const BOARD_DIMENSION = 8;
-const chessboardSetup = generateBoard();
 
 
-function Board({onTileClick, selectedTiles}: BoardProps){
+function Board({onTileClick, selectedTiles, board}: BoardProps){
     // const [selectedTiles, setSelectedTiles] = useState<string[]>(["00", "12", "54"]);
     const columnLabels = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+    const chessboardSetup = generateBoard(board);
+
 
     return(
         <div id="chessboard">
@@ -38,18 +40,26 @@ function Board({onTileClick, selectedTiles}: BoardProps){
     )
 }
 
-function generateBoard(){
+function generateBoard(backendBoard: string[]){
     const board = [];
     for(let i=0; i<BOARD_DIMENSION; i++){
-        board.push(generateRow(i));
+        board.push(generateRow(i, backendBoard));
     }
     return board;
 }
 
-function generateRow(rowNumber: number){
+// decode backend chessBoard to be 2d array of names ex. "bk", "wr"
+// iterate over each row of the decoded chess board, pass the value as a prop for the tile component
+// on subscribe -> pass initial board array
+
+// each board array will be sent as a json
+
+
+
+function generateRow(rowNumber: number, board: string[]){
     const currentRow = [];
     for(let i=0; i<BOARD_DIMENSION; i++){
-        currentRow.push(<Tile row={rowNumber} col={i}/>)
+        currentRow.push(<Tile pieceCode={board[rowNumber*8+i]}/>)
     }
     return currentRow;
 }
