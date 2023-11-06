@@ -2,12 +2,12 @@ import Board from './Board';
 import { client } from '../App';
 import { useState } from 'react';
 
-var isStarted = false;
+var isStarted: boolean = false;
+var sessionId: string = "";
 
 function LocalMultiplayer(){
     const [gameStarted, setGameStarted] = useState(false);    
     const [tileSelectedList, setSelections] = useState([""]);
-
 
     function startGame(){
         setGameStarted(true);
@@ -22,15 +22,22 @@ function LocalMultiplayer(){
         client.onConnect = () => {
             console.log("Connected");
 
-            client.publish({
-                destination: '/app/connect'
-            });
+            // client.publish({
+            //     destination: '/app/connect'
+            // });
 
-
-            var subscription = client.subscribe("/topic/possibleMoves", receiveSelections);
-
+            var connectionFeedback = client.subscribe("/app/serverCommands", connectionMsg);
             
-                function receiveSelections(message: { body: string; }) {
+
+            var subscription = client.subscribe("/topic/serverCommands", receiveSelections);
+
+
+                function connectionMsg(message: { body: string }) {
+                    console.log(message.body);
+                    sessionId = message.body;
+                }
+            
+                function receiveSelections(message: { body: string }) {
                 console.log("From Server: "+message.body);
                 setSelections(decodeString(message.body));
             };
@@ -51,7 +58,8 @@ function onTileClick(tileKey: string){
     if(isStarted){
         client.publish({
             destination: '/app/incomingInfo',
-            body: tileKey
+            body: tileKey,
+            headers: {id: sessionId}
         });
     }
 }
