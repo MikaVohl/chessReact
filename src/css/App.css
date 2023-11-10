@@ -41,6 +41,8 @@
 }
 
 #chessboard .square{
+  display: flex;
+  align-items: center;
   height: 10vh;
   width: 10vh;
   font-size: 90px;
@@ -49,8 +51,10 @@
 }
 
 #chessboard .square img{
-  height: 75%;
-  padding-bottom: 4%;
+  display: block;
+  height: 7.4vh;
+  margin: auto;
+  /* padding-bottom: 4%; */
 }
 
 .white {
@@ -82,6 +86,16 @@
   width: 40%;
   background: rgba(43, 43, 43, 0.695);
   border-radius: 40%;
+}
+
+div #infoPanel{
+  background-color: gray;
+  position: absolute;
+  top: 15vh;
+  right: 2vw;
+  /* transform: translate(-50%, -50%); */
+  width: 20vw;
+  height: 60vh;
 }
 
 /* #chessboard .selected.black{ */

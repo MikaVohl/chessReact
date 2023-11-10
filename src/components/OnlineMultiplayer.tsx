@@ -5,7 +5,11 @@ import { useState } from 'react';
 var isStarted: boolean = false;
 var sessionId: string = "";
 
-function LocalMultiplayer(){
+type GamePageProps = {
+    joinCode?: string;
+}
+
+function OnlineMultiplayer(props: GamePageProps){
     const [gameStarted, setGameStarted] = useState(false);    
     const [currentTurn, setTurn] = useState(true);
     const [tileSelectedList, setSelections] = useState([""]);
@@ -19,6 +23,7 @@ function LocalMultiplayer(){
         ,"wp","wp","wp","wp","wp","wp","wp","wp"
         ,"wr","wn","wb","wq","wk","wb","wn","wr"
     ]);
+    const [displayJoinCode, setJoinCode] = useState("");
 
     function startGame(){
         setGameStarted(true);
@@ -51,6 +56,16 @@ function LocalMultiplayer(){
 
                     console.log(sessionId);
                     console.log(currentBoard);
+                    // console.log("Joincode="+props.joinCode);
+                    // console.log(props.joinCode == null);
+
+                    if(props.joinCode == null){
+                         setJoinCode(sessionId);
+                    }
+                    else{
+                        setJoinCode(props.joinCode);
+                    }
+
                 }
             
                 function receiveSelections(message: { body: string }) {
@@ -75,9 +90,11 @@ function LocalMultiplayer(){
             {!gameStarted && <button className="startButton" onClick={startGame} key="startButton">Start Game</button>}
             <Board onTileClick={onTileClick} selectedTiles={tileSelectedList} board={board}/> 
             <div id="infoPanel">
-                <h2>Local Multiplayer:</h2>
+                <h2>Online Multiplayer:</h2>
                 <h2>Current Turn:</h2>
                 <h1>{currentTurn ? "White" : "Black"}</h1>
+                <h2>Join Code:</h2>
+                <h3>{displayJoinCode}</h3>
             </div>
         </div>
     );
@@ -102,4 +119,4 @@ function decodeString(encoded: string){
 }
 
 
-export {LocalMultiplayer, onTileClick};
+export {OnlineMultiplayer, onTileClick};

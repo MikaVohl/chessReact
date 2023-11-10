@@ -14,6 +14,8 @@ function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/chess/local" element={<GamePage local multi />} />
       <Route path="/chess/computer" element={<GamePage local single />} />
+      <Route path="/chess/versus/host" element={<GamePage online multi host />} />
+      <Route path="/chess/versus/join" element={<GamePage online multi />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
 
@@ -22,5 +24,6 @@ function App() {
 // "/" is bound to the HomePage
 // "/chess/local" is bound to a local multiplayer game
 // "/chess/computer" is bound to a local singleplayer game
+
 
 export { App, client };
