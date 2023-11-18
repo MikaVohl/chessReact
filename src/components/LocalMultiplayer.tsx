@@ -6,7 +6,8 @@ var isStarted: boolean = false;
 var sessionId: string = "";
 
 function LocalMultiplayer(){
-    const [gameStarted, setGameStarted] = useState(false);    
+    const [gameStarted, setGameStarted] = useState(false);
+    const [checkmate, setCheckmate] = useState(false);
     const [currentTurn, setTurn] = useState(true);
     const [tileSelectedList, setSelections] = useState([""]);
     const [board, updateBoard] = useState([
@@ -44,42 +45,57 @@ function LocalMultiplayer(){
 
 
                 function connectionMsg(message: { body: string }) {
-                    sessionId = message.body.substring(0, 36);
-                    let currentBoard = message.body.substring(36);
+                    sessionId = message.body.substring(4, 40);
+                    let currentBoard = message.body.substring(40);
                     updateBoard(decodeString(currentBoard));
                     setSelections([""]);
 
-                    console.log(sessionId);
-                    console.log(currentBoard);
+                    // console.log(sessionId);
+                    // console.log(currentBoard);
                 }
             
                 function receiveSelections(message: { body: string }) {
                     // console.log("From Server: "+message.body);
-                    if(message.body.charAt(0) == "1"){
+                    if(message.body.charAt(0) == "1"){ // first click
                         setSelections(decodeString(message.body.substring(1)));
                     }
-                    else if(message.body.charAt(0) == "2"){
+                    else if(message.body.charAt(0) == "2"){ // second click
                         updateBoard(decodeString(message.body.substring(1)));
                         setSelections([""]);
                         setTurn((prevTurn) => !prevTurn); // react passes the current value of currentTurn as the argument to any function inside of setTurn
                     }
-                    
+                    else if(message.body.charAt(0) == "3"){ // checkmate
+                        updateBoard(decodeString(message.body.substring(1)));
+                        setSelections([""]);
+                        console.log("checkmate");
+                        setCheckmate(true);
+                    }
             };
 
         }
     }
 
+    function checkmateAction(){
+        setCheckmate(false);
+    }
     
     return(
-        <div id="game">
-            {!gameStarted && <button className="startButton" onClick={startGame} key="startButton">Start Game</button>}
-            <Board onTileClick={onTileClick} selectedTiles={tileSelectedList} board={board}/> 
-            <div id="infoPanel">
-                <h2>Local Multiplayer:</h2>
-                <h2>Current Turn:</h2>
-                <h1>{currentTurn ? "White" : "Black"}</h1>
+        <>
+            <div id="titlebar">
+                <h1 id="title"><em>Chasing</em><b> Checkmates</b></h1>
             </div>
-        </div>
+            <div id="game">
+                {(!gameStarted || checkmate) && <div id="overlay"></div>}
+                {checkmate && <button className="startButton" onClick={checkmateAction} key="checkmateButton">Checkmate!!<br></br>{currentTurn ? "White" : "Black"} Wins</button>}
+                {!gameStarted && <button className="startButton" onClick={startGame} key="startButton">Start Game</button>}
+                <Board onTileClick={onTileClick} selectedTiles={tileSelectedList} board={board}/> 
+                {gameStarted && <div id="infoPanel">
+                    <h2>Current Turn:</h2>
+                    <h1>{currentTurn ? "White" : "Black"}</h1>
+                </div>}
+            </div>
+        </>
+        
     );
 }
 

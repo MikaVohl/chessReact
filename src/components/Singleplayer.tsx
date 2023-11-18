@@ -5,11 +5,7 @@ import { useState } from 'react';
 var isStarted: boolean = false;
 var sessionId: string = "";
 
-type GamePageProps = {
-    joinCode?: string;
-}
-
-function OnlineMultiplayer(props: GamePageProps){
+function Singleplayer(){
     const [gameStarted, setGameStarted] = useState(false);    
     const [currentTurn, setTurn] = useState(true);
     const [tileSelectedList, setSelections] = useState([""]);
@@ -23,14 +19,10 @@ function OnlineMultiplayer(props: GamePageProps){
         ,"wp","wp","wp","wp","wp","wp","wp","wp"
         ,"wr","wn","wb","wq","wk","wb","wn","wr"
     ]);
-    const [displayJoinCode, setJoinCode] = useState("");
-
-
-    startGame();
 
     function startGame(){
-        // setGameStarted(true);
-        // isStarted = true;
+        setGameStarted(true);
+        isStarted = true;
 
         client.activate();
 
@@ -46,36 +38,22 @@ function OnlineMultiplayer(props: GamePageProps){
             // });
 
             var connectionFeedback = client.subscribe("/app/serverCommands", connectionMsg);
-
-            var testConnection = client.subscribe("/user/topic/test", testMsg);
+            
 
             var subscription = client.subscribe("/user/topic/serverCommands", receiveSelections);
 
-            function testMsg(message: { body: string }) {
-                console.log(message.body);
 
-            }
+                function connectionMsg(message: { body: string }) {
+                    sessionId = message.body.substring(4, 40);
+                    let currentBoard = message.body.substring(40);
+                    updateBoard(decodeString(currentBoard));
+                    setSelections([""]);
 
-            function connectionMsg(message: { body: string }) {
-                if(props.joinCode == null){
-                    console.log(message.body.substring(0, 4));
-                    setJoinCode(message.body.substring(0, 4));
+                    console.log(sessionId);
+                    console.log(currentBoard);
                 }
-                else{
-                    setJoinCode(props.joinCode);
-                }
-                sessionId = message.body.substring(4, 40);
-                let currentBoard = message.body.substring(40);
-                updateBoard(decodeString(currentBoard));
-                setSelections([""]);
-
-                console.log(sessionId);
-                console.log(currentBoard);
-
-
-            }
-        
-            function receiveSelections(message: { body: string }) {
+            
+                function receiveSelections(message: { body: string }) {
                     // console.log("From Server: "+message.body);
                     if(message.body.charAt(0) == "1"){
                         setSelections(decodeString(message.body.substring(1)));
@@ -85,19 +63,26 @@ function OnlineMultiplayer(props: GamePageProps){
                         setSelections([""]);
                         setTurn((prevTurn) => !prevTurn); // react passes the current value of currentTurn as the argument to any function inside of setTurn
                     }
-            }
+                    
+                client.publish({
+                    destination: '/app/connection',
+                    body: "cpu",
+                    headers: {id: sessionId}
+                });
+            };
+
         }
     }
 
+    
     return(
         <div id="game">
+            {!gameStarted && <button className="startButton" onClick={startGame} key="startButton">Start Game</button>}
             <Board onTileClick={onTileClick} selectedTiles={tileSelectedList} board={board}/> 
             <div id="infoPanel">
-                <h2>Online Multiplayer:</h2>
+                <h2>Local Multiplayer:</h2>
                 <h2>Current Turn:</h2>
                 <h1>{currentTurn ? "White" : "Black"}</h1>
-                <h2>Join Code:</h2>
-                <h3>{displayJoinCode}</h3>
             </div>
         </div>
     );
@@ -122,4 +107,4 @@ function decodeString(encoded: string){
 }
 
 
-export {OnlineMultiplayer, onTileClick};
+export {Singleplayer, onTileClick};
