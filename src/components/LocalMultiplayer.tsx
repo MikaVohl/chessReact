@@ -22,21 +22,18 @@ function LocalMultiplayer(){
     ]);
 
     function startGame(){
-        setGameStarted(true);
-        isStarted = true;
+        
+        
 
         client.activate();
 
-        client.onWebSocketError = () => {
-            console.log("Failed to connect");
-        };
+        // client.onWebSocketError = () => {
+        //     console.log("Failed to connect");
+        // };
         
         client.onConnect = () => {
-            console.log("Connected");
-
-            // client.publish({
-            //     destination: '/app/connect'
-            // });
+            setGameStarted(true);
+            isStarted = true;
 
             var connectionFeedback = client.subscribe("/app/serverCommands", connectionMsg);
             
@@ -67,7 +64,6 @@ function LocalMultiplayer(){
                     else if(message.body.charAt(0) == "3"){ // checkmate
                         updateBoard(decodeString(message.body.substring(1)));
                         setSelections([""]);
-                        console.log("checkmate");
                         setCheckmate(true);
                     }
             };
