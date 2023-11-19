@@ -18,17 +18,21 @@
   color: #61dafb;
 }
 
+html {
+  background-color: rgb(233, 228, 222);
+}
+
 #titlebar {
   padding: 10px;
   background-color: rgb(101, 68, 37);
-  height: 10vh;
+  height: calc(7vh + 20px);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 #title {
   font-family: "Noto Serif";
-  font-size: 3em;
+  font-size: calc(1.7vw + 3.5vh + 4px);
   color: white;
   margin: 0;
 }
@@ -39,7 +43,7 @@ b{
 
 #game {
   width: 100vw;
-  height: 80vh;
+  height: calc(42vh + 15vw);
   background-color: rgb(233, 228, 222);
   padding: 2em 0;
 }
@@ -47,8 +51,8 @@ b{
 #chessboard {
   text-align: center;
   margin: auto;
-  width: 80vh;
-  height: 80vh;
+  width: calc(42vh + 15vw);
+  height: calc((42vh + 15vw) * (9/8));
   display: flex;
   flex-direction: column;
   /* display: grid;
@@ -58,21 +62,23 @@ b{
 
 #chessboard .tileRow {
   display: flex;
+  height: calc(100% / 9);
+  width: 100%;
 }
 
 #chessboard .square{
   display: flex;
   align-items: center;
-  height: 10vh;
-  width: 10vh;
+  height: 100%;
+  width: 12.5%;
   font-size: 90px;
-  margin: auto;
+  margin: 0;
   text-align: center;
 }
 
 #chessboard .square img{
   display: block;
-  height: 7.4vh;
+  height: 75%;
   margin: auto;
   /* padding-bottom: 4%; */
 }
@@ -117,14 +123,20 @@ div #infoPanel{
   top: 40vh;
   right: 2vw;
   /* transform: translate(-50%, -50%); */
-  width: 20vw;
-  height: 20vh;
-  align-items: center;
+  width: calc(23vw - 65px);
+  height: calc(6vw + 15vh);
+  justify-content: center;
+  text-align: center;
   flex-direction: column;
 }
 #infoPanel h1{
-  font-size: 3em;
+  font-size: calc(3.5vw - 18px + 2vh);
   margin: 0;
+}
+#infoPanel h2{
+  font-size: calc((3.5vw - 18px + 2vh) * 0.7);
+  margin: 0;
+  margin-bottom: 1vh;
 }
 
 /* #chessboard .selected.black{ */
@@ -132,10 +144,14 @@ div #infoPanel{
   /* background-color: rgb(169, 48, 0); */
 /* } */
 
+.sideLabel {
+  font-weight: 650;
+  font-size: calc(0.8vw + 1.2vh);
+}
 
 #colLabel{
   width: 3.6%;
-  margin-top: auto;
+  margin-top: -2px;
   margin-bottom: auto;
   text-align: center;
   margin-left: 8.4%;
@@ -173,10 +189,10 @@ div #infoPanel{
   top: 45vh;
   left: 2vw;
   /* transform: translate(-50%, -50%); */
-  width: 18vw;
-  height: 16vh;
+  width: calc(20vw - 60px);
+  height: calc(5vw + 10vh);
   font-family: "Noto Serif";
-  font-size: 3em;
+  font-size: calc(3.3vw - 25px + 2vh);
   font-weight: bold;
   background-color: rgb(134, 85, 42);
   color: rgb(255, 255, 255);
