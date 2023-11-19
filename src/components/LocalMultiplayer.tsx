@@ -74,6 +74,7 @@ function LocalMultiplayer(){
     }
     function restartGame(){
         client.deactivate();
+        setTurn(true);
         setGameStarted(false);
     }
     return(
