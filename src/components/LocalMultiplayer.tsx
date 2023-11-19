@@ -1,6 +1,7 @@
 import Board from './Board';
 import { client } from '../App';
 import { useState } from 'react';
+import { start } from 'repl';
 
 var isStarted: boolean = false;
 var sessionId: string = "";
@@ -46,13 +47,9 @@ function LocalMultiplayer(){
                     let currentBoard = message.body.substring(40);
                     updateBoard(decodeString(currentBoard));
                     setSelections([""]);
-
-                    // console.log(sessionId);
-                    // console.log(currentBoard);
                 }
             
                 function receiveSelections(message: { body: string }) {
-                    // console.log("From Server: "+message.body);
                     if(message.body.charAt(0) == "1"){ // first click
                         setSelections(decodeString(message.body.substring(1)));
                     }
@@ -65,6 +62,7 @@ function LocalMultiplayer(){
                         updateBoard(decodeString(message.body.substring(1)));
                         setSelections([""]);
                         setCheckmate(true);
+                        client.deactivate();
                     }
             };
 
@@ -74,7 +72,10 @@ function LocalMultiplayer(){
     function checkmateAction(){
         setCheckmate(false);
     }
-    
+    function restartGame(){
+        client.deactivate();
+        setGameStarted(false);
+    }
     return(
         <>
             <div id="titlebar">
@@ -89,6 +90,7 @@ function LocalMultiplayer(){
                     <h2>Current Turn:</h2>
                     <h1>{currentTurn ? "White" : "Black"}</h1>
                 </div>}
+                {(gameStarted || checkmate) && <button className="restartButton" onClick={restartGame} key="restartButton">Restart Game</button>}
             </div>
         </>
         

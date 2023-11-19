@@ -109,7 +109,7 @@ b{
 }
 
 div #infoPanel{
-  background-color: rgb(101, 68, 37);
+  background-color: rgb(134, 85, 42);
   font-family: "Noto Serif";
   color: white;
   position: absolute;
@@ -168,7 +168,20 @@ div #infoPanel{
   background-color: rgba(134, 85, 42, 0.99);
   color: rgb(255, 255, 255);
 }
-.startButton:hover{
+.restartButton{
+  position: absolute;
+  top: 45vh;
+  left: 2vw;
+  /* transform: translate(-50%, -50%); */
+  width: 18vw;
+  height: 16vh;
+  font-family: "Noto Serif";
+  font-size: 3em;
+  font-weight: bold;
+  background-color: rgb(134, 85, 42);
+  color: rgb(255, 255, 255);
+}
+.startButton:hover, .restartButton:hover{
   background-color: rgb(114, 72, 36)
 }
 
