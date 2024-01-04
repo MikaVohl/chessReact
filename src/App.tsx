@@ -4,8 +4,8 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { HomePage } from "./pages/HomePage";
 import { Game } from "./components/Game";
 
-const client = new Client({ brokerURL: `ws://localhost:8080/ws` }); // Creates new STOMP client
-// const client = new Client({ brokerURL: `ws://129.153.57.236:8080/ws` }); // Creates new STOMP client
+// const client = new Client({ brokerURL: `ws://localhost:8080/ws` }); // Creates new STOMP client
+const client = new Client({ brokerURL: `ws://129.153.57.236:8080/ws` }); // Creates new STOMP client
 
 function App() {
   return (
